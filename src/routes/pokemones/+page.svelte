@@ -1,9 +1,9 @@
 <script>
-	import { page } from '$app/stores';
-	import EtiquetaTipo from '$lib/components/EtiquetaTipo.svelte';
-	import Pagination from '$lib/components/Pagination.svelte';
-	import TarjetaPokemon from '$lib/components/TarjetaPokemon.svelte';
-	import { NOMBRES_TIPOS } from '$lib/constantes';
+	import { page } from '$app/state';
+	import EtiquetaTipo from '#lib/components/EtiquetaTipo.svelte';
+	import Pagination from '#lib/components/Pagination.svelte';
+	import TarjetaPokemon from '#lib/components/TarjetaPokemon.svelte';
+	import { NOMBRES_TIPOS } from '#lib/constantes';
 	import { onMount } from 'svelte';
 	import './page.css';
 
@@ -13,11 +13,11 @@
 
 	// Inicializar filtros desde la URL
 	onMount(() => {
-		terminoBusqueda = $page.url.searchParams.get('nombre') || '';
-		tipoSeleccionado = $page.url.searchParams.get('tipo') || '';
+		terminoBusqueda = page.url.searchParams.get('nombre') || '';
+		tipoSeleccionado = page.url.searchParams.get('tipo') || '';
 	});
 
-	const limpiarFiltros = (e) => {
+	const limpiarFiltros = () => {
 		const formElement = document.getElementById('form-filtrar-pokemon');
 		formElement.reset();
 		location.href = 'pokemones?page=0';
@@ -43,8 +43,10 @@
 					<button
 						class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-4 py-2 rounded-md font-medium transition-colors text-sm cursor-pointer"
 						form="form-filtrar-pokemon"
-						type="submit">Buscar</button
+						type="submit"
 					>
+						Buscar
+					</button>
 					<button
 						class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-4 py-2 rounded-md font-medium transition-colors text-sm cursor-pointer"
 						onclick={limpiarFiltros}
@@ -97,8 +99,9 @@
 							<button
 								onclick={() => (terminoBusqueda = '')}
 								class="text-slate-500 hover:text-slate-700 hover:bg-slate-200 rounded-full w-4 h-4 flex items-center justify-center transition-colors"
-								>×</button
 							>
+								×
+							</button>
 						</span>
 					{/if}
 					{#if tipoSeleccionado}
@@ -109,8 +112,9 @@
 							<button
 								onclick={() => (tipoSeleccionado = '')}
 								class="text-slate-500 hover:text-slate-700 hover:bg-slate-200 rounded-full w-4 h-4 flex items-center justify-center transition-colors"
-								>×</button
 							>
+								×
+							</button>
 						</span>
 					{/if}
 				</div>
@@ -120,9 +124,9 @@
 		<!-- Sección de resultados -->
 		<div class="mb-8">
 			<div class="flex justify-between items-center mb-6 flex-col md:flex-row gap-4">
-				<span class="text-xl font-semibold text-slate-800"
-					>Resultados ({data.pokemones.length})</span
-				>
+				<span class="text-xl font-semibold text-slate-800">
+					Resultados ({data.pokemones.length})
+				</span>
 				<Pagination
 					currentPage={data.currentPage}
 					hasMore={data.hasMore}

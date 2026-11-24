@@ -1,11 +1,11 @@
 <script>
 	import { goto } from '$app/navigation';
-	import { page } from '$app/stores';
+	import { page } from '$app/state';
 
-	let { currentPage = 0, pageSize = 20, hasMore = true } = $props();
+	let { currentPage = 0, pageSize: _pageSize = 20, hasMore = true } = $props();
 
 	function goToPage(newPage) {
-		const url = new URL($page.url);
+		const url = new URL(page.url);
 		url.searchParams.set('page', newPage.toString());
 		goto(url.toString());
 	}
@@ -21,9 +21,9 @@
 
 <div class="flex gap-6 text-lg text-slate-800 items-center">
 	{#if currentPage > 0}
-		<button onclick={prevPage} class="boton-primario rounded-xl py-1.5 px-2.5 cursor-pointer"
-			>Anterior</button
-		>
+		<button onclick={prevPage} class="boton-primario rounded-xl py-1.5 px-2.5 cursor-pointer">
+			Anterior
+		</button>
 	{/if}
 
 	<span class="page-info">
@@ -31,8 +31,8 @@
 	</span>
 
 	{#if hasMore}
-		<button onclick={nextPage} class="boton-primario rounded-xl p-1.5 cursor-pointer"
-			>Siguiente</button
-		>
+		<button onclick={nextPage} class="boton-primario rounded-xl p-1.5 cursor-pointer">
+			Siguiente
+		</button>
 	{/if}
 </div>

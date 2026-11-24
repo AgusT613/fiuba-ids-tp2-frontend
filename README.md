@@ -1,4 +1,5 @@
 [![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/zTSr6e87)
+
 # TP2 Parte 3 - IntroDex
 
 ## Temas a evaluar
@@ -9,7 +10,6 @@
 - Bases de Datos Relacionales (SQLite)
 - Desarrollo BackEnd (Framework: FastAPI)
 - Desarrollo FrontEnd (Framework: Svelte)
-
 
 ## Consigna
 
@@ -47,6 +47,7 @@ También se debe poder buscar enter ellos para encontrar un pokemon específico 
 Se debe poder seguir la cadena evolutiva de un pokemon. OPCIONAL: se puede también permitir poder seguir la cadena "involutive" de un pokemon, es decir no sólo poder acceder sus evoluciones, sino también sus antecesores.
 
 #### Creación de un pokemón
+
 Si quisieron o debieron realizar la parte opcional, se debe poder crear un nuevo pokemón con toda la información necesario. Y luego, por transitividad, poder buscarlo y ver su información detallada.
 
 ### Movimientos
@@ -60,6 +61,7 @@ Como los Pokemones y los Movimientos, se debe poder ver los equipos existentes y
 Más allá de esto, se debe poder crear un equipo y declarar sus integrantes, pudiendo modificar tanto la información del equipo como las particularidades de sus integrantes, incluyendo esto el hecho de eliminar por completo un integrante o agregar uno al equipo.
 
 ### Generaciones y Tipos
+
 Estas entidades son menos "relevantes" o complejas, por lo que no vamos a pedir mucha funcionalidad a su alrededor. No vamos a pedir que se puedan ver o buscar entre ellos. Sino que simplemente su información puede ser mostrada en alguna de las páginas ya existentes. De todas maneras, pueden si lo desean crearles sus propias páginas para mostrar su información.
 
 ## Requisitos adicionales

@@ -1,4 +1,5 @@
 <script>
+	import { error } from '@sveltejs/kit';
 	import { createEventDispatcher, onDestroy } from 'svelte';
 	const dispatch = createEventDispatcher();
 

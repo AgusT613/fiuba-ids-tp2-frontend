@@ -73,13 +73,14 @@ export const actions = {
 			const msg = await response.text();
 			throw error(response.status, msg || 'Error al agregar el integrante');
 		}
-	},	agregar_movimiento: async ({ request }) => {
+	},
+	agregar_movimiento: async ({ request }) => {
 		const data = await request.formData();
 		const id_equipo = data.get('id_equipo');
 		const id_integrante = data.get('id_integrante');
 		const id_movimiento = parseInt(data.get('id_movimiento'));
 
-		const payload = { 
+		const payload = {
 			id_movimiento: id_movimiento
 		};
 
@@ -94,7 +95,8 @@ export const actions = {
 			const msg = await response.text();
 			throw error(response.status, msg || 'Error al agregar el movimiento');
 		}
-	},editar_integrante: async ({ request }) => {
+	},
+	editar_integrante: async ({ request }) => {
 		const data = await request.formData();
 		const id_equipo = data.get('id_equipo');
 		const id_integrante = data.get('id_integrante');
@@ -107,16 +109,16 @@ export const actions = {
 			throw error(equipoResponse.status, 'Error al obtener el equipo');
 		}
 		const equipo = await equipoResponse.json();
-		
+
 		// Buscar el integrante específico
-		const integrante = equipo.integrantes.find(i => i.id == id_integrante);
+		const integrante = equipo.integrantes.find((i) => i.id == id_integrante);
 		if (!integrante) {
 			throw error(404, 'Integrante no encontrado');
 		}
 
-		const payload = { 
-			apodo: apodo || "Sin-Nombre", 
-			movimientos: integrante.movimientos?.map(m => m.id) || []
+		const payload = {
+			apodo: apodo || 'Sin-Nombre',
+			movimientos: integrante.movimientos?.map((m) => m.id) || []
 		};
 
 		const url = `http://localhost:8000/api/equipos/${id_equipo}/integrantes/${id_integrante}`;
@@ -136,11 +138,12 @@ export const actions = {
 		const id_equipo = data.get('id_equipo');
 		const id_integrante = data.get('id_integrante');
 		let apodo = data.get('apodo');
-		const movimientos = data.getAll('movimientos')
-			.map(id => parseInt(id))
-			.filter(id => !isNaN(id));
+		const movimientos = data
+			.getAll('movimientos')
+			.map((id) => parseInt(id))
+			.filter((id) => !isNaN(id));
 		if (!apodo) {
-			apodo = "Sin-Nombre"
+			apodo = 'Sin-Nombre';
 		}
 		const payload = { apodo, movimientos };
 

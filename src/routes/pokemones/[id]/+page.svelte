@@ -1,10 +1,8 @@
 <script>
-	import Tabla from '$lib/components/tabla/tabla.svelte';
-	import CustomH1 from '$lib/components/titulo.svelte';
+	import Tabla from '#lib/components/tabla/tabla.svelte';
 	let { data } = $props();
 
 	const {
-		id,
 		nombre,
 		imagen,
 		altura,
@@ -57,7 +55,9 @@
 							<a href="#goto-movimientos-huevo" class="text-blue-600 hover:underline">Por Huevo</a>
 						</li>
 						<li>
-							<a href="#goto-movimientos-maquina" class="text-blue-600 hover:underline">Por Máquina</a>
+							<a href="#goto-movimientos-maquina" class="text-blue-600 hover:underline">
+								Por Máquina
+							</a>
 						</li>
 						<li>
 							<a href="#goto-movimientos-nivel" class="text-blue-600 hover:underline">Por Nivel</a>
@@ -149,7 +149,7 @@
 							<tr>
 								<td class="border border-gray-300 p-4 text-center">{tipo.nombre}</td>
 								<td class="border border-gray-300 p-4 text-center">
-									{tipo.debilidades.map(d => d.nombre).join(', ')}
+									{tipo.debilidades.map((d) => d.nombre).join(', ')}
 								</td>
 							</tr>
 						{/each}
@@ -192,9 +192,9 @@
 								<td class="border border-gray-300 p-4 text-center">{evo.nombre}</td>
 								<td class="border border-gray-300 p-4 text-center">
 									<a href={`/pokemones/${evo.id}`} rel="external" class="block">
-										<img 
-											src={evo.imagen} 
-											alt={`Imagen de ${evo.nombre}`} 
+										<img
+											src={evo.imagen}
+											alt={`Imagen de ${evo.nombre}`}
 											class="mx-auto h-auto max-w-[100px] transition-transform duration-200 hover:scale-110"
 										/>
 									</a>

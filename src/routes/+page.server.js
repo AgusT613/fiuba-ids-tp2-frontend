@@ -1,5 +1,5 @@
 import { error } from '@sveltejs/kit';
-import { API_URL, TIPOS } from '$lib/constantes/index';
+import { API_URL, TIPOS } from '#lib/constantes/index';
 
 export async function load({ url }) {
 	const apiUrl = new URL(`${API_URL}/pokemon`);

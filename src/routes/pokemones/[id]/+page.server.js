@@ -1,4 +1,4 @@
-import { API_URL } from '$lib/constantes/index.js';
+import { API_URL } from '#lib/constantes/index.js';
 import { error } from '@sveltejs/kit';
 
 export async function load({ params }) {

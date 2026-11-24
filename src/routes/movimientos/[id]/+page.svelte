@@ -7,8 +7,9 @@
 		<a
 			href="../"
 			class="inline-flex items-center gap-2 bg-slate-100 hover:bg-slate-200 text-slate-700 px-4 py-2 rounded-md font-medium transition-colors mb-8"
-			>◄ Menu Principal</a
 		>
+			◄ Menu Principal
+		</a>
 
 		<!-- Encabezado de la página -->
 		<div class="text-center mb-8">
@@ -48,17 +49,18 @@
 			<table class="w-full text-base border-collapse">
 				<thead>
 					<tr class="bg-slate-50">
-						<th class="border border-slate-300 p-2 text-center font-semibold">Nombre del Pokemon</th
-						>
-						<th class="border border-slate-300 p-2 text-center font-semibold"
-							>Altura del Pokemon (metros)</th
-						>
-						<th class="border border-slate-300 p-2 text-center font-semibold"
-							>Peso del Pokemon (kilogramos)</th
-						>
-						<th class="border border-slate-300 p-2 text-center font-semibold"
-							>Asi se ve el Pokemon</th
-						>
+						<th class="border border-slate-300 p-2 text-center font-semibold">
+							Nombre del Pokemon
+						</th>
+						<th class="border border-slate-300 p-2 text-center font-semibold">
+							Altura del Pokemon (metros)
+						</th>
+						<th class="border border-slate-300 p-2 text-center font-semibold">
+							Peso del Pokemon (kilogramos)
+						</th>
+						<th class="border border-slate-300 p-2 text-center font-semibold">
+							Asi se ve el Pokemon
+						</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -79,9 +81,9 @@
 						</tr>
 					{:else}
 						<tr>
-							<td colspan="4" class="border border-slate-300 p-4 text-center text-slate-500"
-								>No Hay Pokemones que aprendan este movimiento por Huevo</td
-							>
+							<td colspan="4" class="border border-slate-300 p-4 text-center text-slate-500">
+								No Hay Pokemones que aprendan este movimiento por Huevo
+							</td>
 						</tr>
 					{/each}
 				</tbody>
@@ -95,17 +97,18 @@
 			<table class="w-full text-base border-collapse">
 				<thead>
 					<tr class="bg-slate-50">
-						<th class="border border-slate-300 p-2 text-center font-semibold">Nombre del Pokemon</th
-						>
-						<th class="border border-slate-300 p-2 text-center font-semibold"
-							>Altura del Pokemon (metros)</th
-						>
-						<th class="border border-slate-300 p-2 text-center font-semibold"
-							>Peso del Pokemon (kilogramos)</th
-						>
-						<th class="border border-slate-300 p-2 text-center font-semibold"
-							>Asi se ve el Pokemon</th
-						>
+						<th class="border border-slate-300 p-2 text-center font-semibold">
+							Nombre del Pokemon
+						</th>
+						<th class="border border-slate-300 p-2 text-center font-semibold">
+							Altura del Pokemon (metros)
+						</th>
+						<th class="border border-slate-300 p-2 text-center font-semibold">
+							Peso del Pokemon (kilogramos)
+						</th>
+						<th class="border border-slate-300 p-2 text-center font-semibold">
+							Asi se ve el Pokemon
+						</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -126,9 +129,9 @@
 						</tr>
 					{:else}
 						<tr>
-							<td colspan="4" class="border border-slate-300 p-4 text-center text-slate-500"
-								>No Hay Pokemones que aprendan este movimiento por Maquina</td
-							>
+							<td colspan="4" class="border border-slate-300 p-4 text-center text-slate-500">
+								No Hay Pokemones que aprendan este movimiento por Maquina
+							</td>
 						</tr>
 					{/each}
 				</tbody>
@@ -142,17 +145,18 @@
 			<table class="w-full text-base border-collapse">
 				<thead>
 					<tr class="bg-slate-50">
-						<th class="border border-slate-300 p-2 text-center font-semibold">Nombre del Pokemon</th
-						>
-						<th class="border border-slate-300 p-2 text-center font-semibold"
-							>Altura del Pokemon (metros)</th
-						>
-						<th class="border border-slate-300 p-2 text-center font-semibold"
-							>Peso del Pokemon (kilogramos)</th
-						>
-						<th class="border border-slate-300 p-2 text-center font-semibold"
-							>Asi se ve el Pokemon</th
-						>
+						<th class="border border-slate-300 p-2 text-center font-semibold">
+							Nombre del Pokemon
+						</th>
+						<th class="border border-slate-300 p-2 text-center font-semibold">
+							Altura del Pokemon (metros)
+						</th>
+						<th class="border border-slate-300 p-2 text-center font-semibold">
+							Peso del Pokemon (kilogramos)
+						</th>
+						<th class="border border-slate-300 p-2 text-center font-semibold">
+							Asi se ve el Pokemon
+						</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -173,9 +177,9 @@
 						</tr>
 					{:else}
 						<tr>
-							<td colspan="4" class="border border-slate-300 p-4 text-center text-slate-500"
-								>No Hay Pokemones que aprendan este movimiento por Nivel</td
-							>
+							<td colspan="4" class="border border-slate-300 p-4 text-center text-slate-500">
+								No Hay Pokemones que aprendan este movimiento por Nivel
+							</td>
 						</tr>
 					{/each}
 				</tbody>

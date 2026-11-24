@@ -1,11 +1,10 @@
 <script>
 	import { enhance } from '$app/forms';
-	import Pagination from '$lib/components/Pagination.svelte';
+	import Pagination from '#lib/components/Pagination.svelte';
 	export let data;
 
 	let search = '';
 	let exito = false;
-	let error = '';
 
 	$: equiposFiltrados = data.equipos.filter((m) =>
 		m.nombre.toLowerCase().includes(search.toLowerCase())
@@ -23,8 +22,9 @@
 		<a
 			href="../"
 			class="inline-flex items-center gap-2 bg-slate-100 hover:bg-slate-200 text-slate-700 px-4 py-2 rounded-md font-medium transition-colors mb-8"
-			>◄ Menu Principal</a
 		>
+			◄ Menu Principal
+		</a>
 
 		<!-- Encabezado de la página -->
 		<div class="text-center mb-8">
@@ -76,8 +76,9 @@
 				<button
 					type="submit"
 					class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md font-medium transition-colors"
-					>Guardar</button
 				>
+					Guardar
+				</button>
 			</form>
 			{#if exito}
 				<div class="mt-4 p-3 bg-green-100 border border-green-300 rounded-md text-green-800">
@@ -92,15 +93,15 @@
 					<tr class="bg-slate-50">
 						<th class="border border-slate-300 p-3 text-center font-semibold">Ir al Equipo</th>
 						<th class="border border-slate-300 p-3 text-center font-semibold">Nombre del Equipo</th>
-						<th class="border border-slate-300 p-3 text-center font-semibold"
-							>Generacion del Equipo</th
-						>
-						<th class="border border-slate-300 p-3 text-center font-semibold"
-							>Cantidad de Integrantes del Equipo</th
-						>
-						<th class="border border-slate-300 p-3 text-center font-semibold"
-							>Eliminar este Equipo</th
-						>
+						<th class="border border-slate-300 p-3 text-center font-semibold">
+							Generacion del Equipo
+						</th>
+						<th class="border border-slate-300 p-3 text-center font-semibold">
+							Cantidad de Integrantes del Equipo
+						</th>
+						<th class="border border-slate-300 p-3 text-center font-semibold">
+							Eliminar este Equipo
+						</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -123,20 +124,20 @@
 							<td class="border border-slate-300 p-3 text-center">
 								<form action="?/eliminar_equipo" method="POST">
 									<input type="hidden" name="id_equipo" value={equipo.id} />
-									<button
-										><img
+									<button>
+										<img
 											src="https://img.icons8.com/emoji/24/red-circle-emoji.png"
 											alt="boton eliminar a este equipo"
-										/></button
-									>
+										/>
+									</button>
 								</form>
 							</td>
 						</tr>
 					{:else}
 						<tr>
-							<td colspan="4" class="border border-slate-300 p-4 text-center text-slate-500"
-								>Equipos no encontrados</td
-							>
+							<td colspan="4" class="border border-slate-300 p-4 text-center text-slate-500">
+								Equipos no encontrados
+							</td>
 						</tr>
 					{/each}
 				</tbody>

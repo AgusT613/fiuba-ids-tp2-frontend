@@ -1,5 +1,5 @@
 <script>
-	import TarjetaPokemon from '$lib/components/TarjetaPokemon.svelte';
+	import TarjetaPokemon from '#lib/components/TarjetaPokemon.svelte';
 
 	let { data } = $props();
 
