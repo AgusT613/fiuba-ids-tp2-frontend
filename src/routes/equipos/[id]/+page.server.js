@@ -1,19 +1,17 @@
 import { error } from '@sveltejs/kit';
 
 export async function load({ params }) {
-	let url = new URL(`http://localhost:8000/api/equipos/${params.id}`);
+	const url = new URL(`http://localhost:8000/api/equipos/${params.id}`);
 	const response = await fetch(url);
 	if (!response.ok) {
-		error(response.status);
+		error(response.status, 'No se pudo cargar el equipo');
 	}
 
-	let equipo = await response.json();
+	const equipo = await response.json();
 	const pokemonsRes = await fetch('http://localhost:8000/api/pokemon/?limit=100&offset=0');
-	if (!pokemonsRes.ok) throw error(pokemonsRes.status);
-	const pokemonsDisponibles = await pokemonsRes.json();
-	const movimientosRes = await fetch('http://localhost:8000/api/movimientos');
-	if (!movimientosRes.ok) throw error(movimientosRes.status);
-	const movimientos = await movimientosRes.json();
+	const pokemonsDisponibles = pokemonsRes.ok ? await pokemonsRes.json() : [];
+	const movimientosRes = await fetch('http://localhost:8000/api/movimientos/');
+	const movimientos = movimientosRes.ok ? await movimientosRes.json() : [];
 
 	return {
 		equipo,
@@ -25,10 +23,10 @@ export async function load({ params }) {
 export const actions = {
 	eliminar_integrante: async ({ request }) => {
 		const data = await request.formData();
-		//console.log(data.get('id_equipo'))
-		//console.log(data.get('integrante_id'))
-		let url = new URL(
-			`http://localhost:8000/api/equipos/${data.get('id_equipo')}/integrantes/${data.get('integrante_id')}`
+		const id_equipo = data.get('id_equipo');
+		const integrante_id = data.get('integrante_id');
+		const url = new URL(
+			`http://localhost:8000/api/equipos/${id_equipo}/integrantes/${integrante_id}`
 		);
 
 		const response = await fetch(url, {
@@ -36,12 +34,53 @@ export const actions = {
 			headers: { 'Content-Type': 'application/json' }
 		});
 		if (!response.ok) {
-			error(response.status, 'No se pudo eliminar al integrante');
+			const msg = await response.text();
+			throw error(response.status, msg || 'No se pudo eliminar al integrante');
 		}
+		return { success: true };
 	},
+
+	eliminar_movimiento: async ({ request }) => {
+		const data = await request.formData();
+		const id_equipo = data.get('id_equipo');
+		const id_integrante = data.get('id_integrante');
+		const id_movimiento = parseInt(data.get('id_movimiento'));
+
+		// Primero intentamos DELETE directo si existe
+		const urlDelete = `http://localhost:8000/api/equipos/${id_equipo}/integrantes/${id_integrante}/movimientos/${id_movimiento}`;
+		const res = await fetch(urlDelete, { method: 'DELETE' });
+		if (!res.ok) {
+			// Si el endpoint específico DELETE no existe, actualizamos los movimientos del integrante mediante PUT
+			const equipoRes = await fetch(`http://localhost:8000/api/equipos/${id_equipo}`);
+			if (equipoRes.ok) {
+				const equipo = await equipoRes.json();
+				const integrante = equipo.integrantes?.find((i) => i.id == id_integrante);
+				if (integrante) {
+					const nuevosMovs = (integrante.movimientos || [])
+						.filter((m) => m.id !== id_movimiento)
+						.map((m) => m.id);
+					const putUrl = `http://localhost:8000/api/equipos/${id_equipo}/integrantes/${id_integrante}`;
+					const putRes = await fetch(putUrl, {
+						method: 'PUT',
+						headers: { 'Content-Type': 'application/json' },
+						body: JSON.stringify({
+							apodo: integrante.apodo || 'Sin-Nombre',
+							movimientos: nuevosMovs
+						})
+					});
+					if (!putRes.ok) {
+						throw error(putRes.status, 'Error al desvincular el movimiento');
+					}
+				}
+			}
+		}
+		return { success: true };
+	},
+
 	actualizar_equipo: async ({ request }) => {
 		const data = await request.formData();
-		let url = new URL(`http://localhost:8000/api/equipos/${data.get('id_equipo')}`);
+		const id_equipo = data.get('id_equipo');
+		const url = new URL(`http://localhost:8000/api/equipos/${id_equipo}`);
 		const nombre = data.get('nombre');
 		const id_generacion = parseInt(data.get('id_generacion'));
 
@@ -55,7 +94,9 @@ export const actions = {
 			const msg = await response.text();
 			throw error(response.status, msg || 'Error al actualizar el equipo');
 		}
+		return { success: true };
 	},
+
 	agregar_integrante: async ({ request }) => {
 		const data = await request.formData();
 		const id_equipo = data.get('id_equipo');
@@ -73,7 +114,9 @@ export const actions = {
 			const msg = await response.text();
 			throw error(response.status, msg || 'Error al agregar el integrante');
 		}
+		return { success: true };
 	},
+
 	agregar_movimiento: async ({ request }) => {
 		const data = await request.formData();
 		const id_equipo = data.get('id_equipo');
@@ -95,14 +138,16 @@ export const actions = {
 			const msg = await response.text();
 			throw error(response.status, msg || 'Error al agregar el movimiento');
 		}
+		return { success: true };
 	},
+
 	editar_integrante: async ({ request }) => {
 		const data = await request.formData();
 		const id_equipo = data.get('id_equipo');
 		const id_integrante = data.get('id_integrante');
 		const apodo = data.get('apodo');
 
-		// Obtener el equipo completo para acceder a los datos del integrante
+		// Obtener el equipo completo para preservar movimientos
 		const equipoUrl = `http://localhost:8000/api/equipos/${id_equipo}`;
 		const equipoResponse = await fetch(equipoUrl);
 		if (!equipoResponse.ok) {
@@ -110,7 +155,6 @@ export const actions = {
 		}
 		const equipo = await equipoResponse.json();
 
-		// Buscar el integrante específico
 		const integrante = equipo.integrantes.find((i) => i.id == id_integrante);
 		if (!integrante) {
 			throw error(404, 'Integrante no encontrado');
@@ -130,29 +174,23 @@ export const actions = {
 
 		if (!response.ok) {
 			const msg = await response.text();
-			throw error(response.status, msg || 'Error al editar el integrante');
+			throw error(response.status, msg || 'Error al editar el apodo del integrante');
 		}
+		return { success: true };
 	},
+
 	actualizar_integrante: async ({ request }) => {
 		const data = await request.formData();
 		const id_equipo = data.get('id_equipo');
 		const id_integrante = data.get('id_integrante');
-		let apodo = data.get('apodo');
+		let apodo = data.get('apodo') || 'Sin-Nombre';
 		const movimientos = data
 			.getAll('movimientos')
 			.map((id) => parseInt(id))
 			.filter((id) => !isNaN(id));
-		if (!apodo) {
-			apodo = 'Sin-Nombre';
-		}
+
 		const payload = { apodo, movimientos };
-
-		//console.log('Payload:', payload);
-		//console.log('IDs:', movimientos);
-
 		const url = `http://localhost:8000/api/equipos/${id_equipo}/integrantes/${id_integrante}`;
-
-		//console.log('URL:', url);
 
 		const response = await fetch(url, {
 			method: 'PUT',
@@ -160,11 +198,10 @@ export const actions = {
 			body: JSON.stringify(payload)
 		});
 
-		//console.log('Response status:', response.status);
-
 		if (!response.ok) {
 			const msg = await response.text();
 			throw error(response.status, msg || 'Error al actualizar el integrante');
 		}
+		return { success: true };
 	}
 };

@@ -1,82 +1,63 @@
 <script lang="ts">
 	import EtiquetaTipo from './EtiquetaTipo.svelte';
 
-	let { pokemon } = $props();
+	interface Props {
+		pokemon: any;
+	}
+
+	let { pokemon }: Props = $props();
 </script>
 
 <div
-	class="bg-white rounded-lg border border-slate-200 shadow-sm overflow-hidden transition-all duration-300 hover:shadow-lg hover:-translate-y-1"
+	class="group bg-white rounded-2xl border border-slate-200/90 shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between overflow-hidden"
 >
-	<div class="relative bg-gradient-to-br from-slate-50 to-slate-200 p-6 text-center">
-		<img
-			src={pokemon.imagen || `/placeholder.svg?height=120&width=120`}
-			alt={pokemon.nombre}
-			class="w-30 h-30 object-contain mx-auto drop-shadow-md"
-		/>
-		<div
-			class="absolute top-2 right-2 bg-white/90 backdrop-blur-sm px-2 py-1 rounded-md text-xs font-semibold text-slate-500"
+	<!-- Imagen con fondo suave -->
+	<a
+		href={`/pokemones/${pokemon.id}`}
+		class="block relative bg-gradient-to-b from-slate-50 to-slate-100/60 p-6 text-center overflow-hidden cursor-pointer"
+	>
+		<span
+			class="absolute top-3 left-3 bg-white/95 backdrop-blur-sm px-2.5 py-0.5 rounded-full text-xs font-mono font-bold text-slate-500 border border-slate-200/80 shadow-xs"
 		>
-			#{pokemon.id.toString().padStart(3, '0')}
-		</div>
-	</div>
+			#{pokemon.id ? pokemon.id.toString().padStart(3, '0') : '???'}
+		</span>
 
-	<div class="p-4">
-		<h3 class="text-lg font-bold text-slate-800 mb-3 text-center">{pokemon.nombre}</h3>
+		<img
+			src={pokemon.imagen || `/placeholder.svg?height=140&width=140`}
+			alt={pokemon.nombre}
+			class="w-32 h-32 object-contain mx-auto drop-shadow-md group-hover:scale-110 transition-transform duration-300"
+			loading="lazy"
+		/>
+	</a>
 
-		<div class="flex flex-wrap justify-center gap-2 mb-4">
-			{#each pokemon.tipos as tipo}
-				<EtiquetaTipo tipo={tipo.nombre} tamaño="sm" />
-			{/each}
-		</div>
-
-		<!-- <div class="space-y-2 mb-4">
-			<div class="flex items-center justify-between text-sm">
-				<span class="text-slate-600 font-medium min-w-8">HP</span>
-				<div class="flex-1 bg-slate-200 rounded-full h-2 mx-2 overflow-hidden">
-					<div
-						class="h-full bg-gradient-to-r from-red-400 to-red-500 rounded-full transition-all duration-500"
-						style="width: {(pokemon.estadisticas.vida / 255) * 100}%"
-					></div>
-				</div>
-				<span class="text-slate-800 font-semibold min-w-8 text-right"
-					>{pokemon.estadisticas.vida}</span
+	<!-- Cuerpo: Nombre, Tipos y Acción -->
+	<div class="p-5 flex flex-col flex-1 justify-between gap-4">
+		<div>
+			<a href={`/pokemones/${pokemon.id}`} class="block text-center cursor-pointer">
+				<h3
+					class="text-lg font-bold text-slate-800 capitalize group-hover:text-blue-600 transition-colors"
 				>
-			</div>
-
-			<div class="flex items-center justify-between text-sm">
-				<span class="text-slate-600 font-medium min-w-8">ATQ</span>
-				<div class="flex-1 bg-slate-200 rounded-full h-2 mx-2 overflow-hidden">
-					<div
-						class="h-full bg-gradient-to-r from-orange-400 to-orange-500 rounded-full transition-all duration-500"
-						style="width: {(pokemon.estadisticas.ataque / 255) * 100}%"
-					></div>
-				</div>
-				<span class="text-slate-800 font-semibold min-w-8 text-right"
-					>{pokemon.estadisticas.ataque}</span
-				>
-			</div>
-
-			<div class="flex items-center justify-between text-sm">
-				<span class="text-slate-600 font-medium min-w-8">DEF</span>
-				<div class="flex-1 bg-slate-200 rounded-full h-2 mx-2 overflow-hidden">
-					<div
-						class="h-full bg-gradient-to-r from-blue-400 to-blue-500 rounded-full transition-all duration-500"
-						style="width: {(pokemon.estadisticas.defensa / 255) * 100}%"
-					></div>
-				</div>
-				<span class="text-slate-800 font-semibold min-w-8 text-right"
-					>{pokemon.estadisticas.defensa}</span
-				>
-			</div>
-		</div> -->
-
-		<div class="flex gap-2">
-			<a
-				href="/pokemones/{pokemon.id}"
-				class="flex-1 bg-blue-600 hover:bg-blue-700 text-white text-center py-2 px-4 rounded-md font-medium transition-colors text-sm"
-			>
-				Ver detalles
+					{pokemon.nombre}
+				</h3>
 			</a>
+
+			<div class="flex flex-wrap justify-center gap-1.5 mt-2.5">
+				{#each pokemon.tipos || [] as tipo}
+					<EtiquetaTipo tipo={tipo.nombre || tipo} tamaño="sm" />
+				{/each}
+			</div>
 		</div>
+
+		<!-- Botón de detalles -->
+		<a
+			href={`/pokemones/${pokemon.id}`}
+			class="w-full inline-flex items-center justify-center gap-1.5 py-2 px-3 rounded-xl bg-slate-50 hover:bg-blue-600 text-slate-700 hover:text-white border border-slate-200 hover:border-transparent font-medium text-xs sm:text-sm transition-all duration-200 active:scale-95 text-center cursor-pointer"
+		>
+			<span>Ver detalles</span>
+			<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+				<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"
+				></path>
+			</svg>
+		</a>
 	</div>
 </div>

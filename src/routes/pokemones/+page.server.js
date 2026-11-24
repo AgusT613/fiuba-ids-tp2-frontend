@@ -2,18 +2,18 @@ import { error } from '@sveltejs/kit';
 import { API_URL, TIPOS } from '#lib/constantes/index';
 
 export async function load({ url }) {
-	const apiUrl = new URL(`${API_URL}/pokemon`);
+	const apiUrl = new URL(`${API_URL}/pokemon/`);
 	const queryNombreParcial = url.searchParams.get('nombre') || '';
 	const queryTipo = url.searchParams.get('tipo') || '';
 	const queryPage = parseInt(url.searchParams.get('page') || '0');
 	const pageSize = 20;
 	const offset = pageSize * queryPage;
 
-	apiUrl.searchParams.set('limit', pageSize);
-	apiUrl.searchParams.set('offset', offset);
+	apiUrl.searchParams.set('limit', pageSize.toString());
+	apiUrl.searchParams.set('offset', offset.toString());
 
 	if (queryNombreParcial) apiUrl.searchParams.set('nombre_parcial', queryNombreParcial);
-	if (queryTipo) apiUrl.searchParams.set('tipo', TIPOS[queryTipo]);
+	if (queryTipo && TIPOS[queryTipo]) apiUrl.searchParams.set('tipo', TIPOS[queryTipo].toString());
 
 	const response = await fetch(apiUrl);
 
@@ -22,24 +22,7 @@ export async function load({ url }) {
 	}
 
 	const pokemones = await response.json();
-	const hasMore = pokemones.length == pageSize;
+	const hasMore = pokemones.length === pageSize;
 
 	return { pokemones, pageSize, hasMore, currentPage: queryPage };
 }
-
-export const actions = {
-	filter: async ({ request }) => {
-		const data = await request.formData();
-		const { nombre, tipo } = data;
-		let apiUrl = new URL(`${API_URL}/pokemon`);
-
-		if (nombre) apiUrl.searchParams.set('nombre_parcial', nombre);
-		if (tipo) apiUrl.searchParams.set('tipo', TIPOS[tipo]);
-
-		const response = await fetch(apiUrl);
-
-		if (!response.ok) {
-			error(response.status, `Response status: ${response.status}`);
-		}
-	}
-};
