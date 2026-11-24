@@ -6,7 +6,7 @@ export async function load({ url }) {
 	const queryNombreParcial = url.searchParams.get('nombre') || '';
 	const queryTipo = url.searchParams.get('tipo') || '';
 	const queryPage = parseInt(url.searchParams.get('page') || '0');
-	const pageSize = 4;
+	const pageSize = 8;
 	const offset = pageSize * queryPage;
 
 	apiUrl.searchParams.set('limit', pageSize);
