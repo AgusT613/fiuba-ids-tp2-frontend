@@ -18,7 +18,7 @@ export async function load({ url }) {
 	const response = await fetch(apiUrl);
 
 	if (!response.ok) {
-		error(`Error ${response.status}, ${response.statusText}`);
+		error(response.status, `Error ${response.status}, ${response.statusText}`);
 	}
 
 	const pokemones = await response.json();
@@ -39,7 +39,7 @@ export const actions = {
 		const response = await fetch(apiUrl);
 
 		if (!response.ok) {
-			error(`Response status: ${response.status}`);
+			error(response.status, `Response status: ${response.status}`);
 		}
 	}
 };

@@ -1,11 +1,40 @@
 <script>
+	import { navigating } from '$app/state';
 	import Encabezado from '#lib/components/Encabezado.svelte';
 	import '../app.css';
 
 	let { children } = $props();
 </script>
 
-<div class="min-h-screen flex flex-col">
+<div class="min-h-screen flex flex-col relative">
+	{#if navigating.current}
+		<!-- Barra de carga superior -->
+		<div class="fixed top-0 left-0 right-0 h-1.5 z-[100] bg-slate-200 overflow-hidden">
+			<div class="h-full bg-blue-600 animate-pulse w-full"></div>
+		</div>
+
+		<!-- Indicador flotante de carga -->
+		<div
+			class="fixed bottom-6 right-6 z-50 flex items-center gap-3 bg-white/95 backdrop-blur-sm border border-slate-200 shadow-xl px-4 py-2.5 rounded-full text-slate-700 text-sm font-medium"
+		>
+			<svg
+				class="animate-spin h-4 w-4 text-blue-600"
+				xmlns="http://www.w3.org/2000/svg"
+				fill="none"
+				viewBox="0 0 24 24"
+			>
+				<circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"
+				></circle>
+				<path
+					class="opacity-75"
+					fill="currentColor"
+					d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+				></path>
+			</svg>
+			<span>Cargando...</span>
+		</div>
+	{/if}
+
 	<!-- Header -->
 	<Encabezado />
 

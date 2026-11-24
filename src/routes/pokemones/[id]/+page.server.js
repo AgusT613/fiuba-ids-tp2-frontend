@@ -6,7 +6,7 @@ export async function load({ params }) {
 	const response = await fetch(apiUrl);
 
 	if (!response.ok) {
-		error(`Error ${response.status}, ${response.statusText}`);
+		error(response.status, `Error ${response.status}, ${response.statusText}`);
 	}
 
 	const pokemon = await response.json();
