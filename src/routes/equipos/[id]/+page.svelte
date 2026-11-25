@@ -1,5 +1,6 @@
 <script>
 	import { enhance } from '$app/forms';
+	import { API_URL } from '#lib/constantes/index';
 	import EtiquetaTipo from '#lib/components/EtiquetaTipo.svelte';
 	import Typeahead from '#lib/components/Typeahead.svelte';
 
@@ -1029,7 +1030,7 @@
 						Buscar Especie de Pokémon <span class="text-rose-500">*</span>
 					</label>
 					<Typeahead
-						endpoint="http://localhost:8000/api/pokemon"
+						endpoint="{API_URL}/pokemon"
 						placeholder="Escribe el nombre: Pikachu, Charizard..."
 						onselect={(res) => {
 							pokemonSeleccionado = res;
@@ -1155,7 +1156,7 @@
 						Buscar Movimiento <span class="text-rose-500">*</span>
 					</label>
 					<Typeahead
-						endpoint="http://localhost:8000/api/movimientos"
+						endpoint="{API_URL}/movimientos"
 						placeholder="Ej: Lanzallamas, Rayo, Terremoto..."
 						onselect={(res) => {
 							movimientoSeleccionado = res;

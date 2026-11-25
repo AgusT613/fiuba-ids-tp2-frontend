@@ -1,13 +1,21 @@
 import { sveltekit } from '@sveltejs/kit/vite';
-import adapter from '@sveltejs/adapter-auto';
-import { defineConfig } from 'vite';
+import adapter from '@sveltejs/adapter-node';
+import { defineConfig, loadEnv } from 'vite';
 import tailwindcss from '@tailwindcss/vite';
 
-export default defineConfig({
-	plugins: [
-		sveltekit({
-			adapter: adapter()
-		}),
-		tailwindcss()
-	]
+export default defineConfig(({ mode }) => {
+	const env = loadEnv(mode, process.cwd(), '');
+	process.env = { ...process.env, ...env };
+
+	return {
+		plugins: [
+			sveltekit({
+				adapter: adapter()
+			}),
+			tailwindcss()
+		],
+		define: {
+			'process.env.API_URL': JSON.stringify(process.env.API_URL || env.API_URL)
+		}
+	};
 });

@@ -61,9 +61,26 @@ IntroDex es una aplicación web moderna e interactiva para explorar la Pokédex,
 
 ## 🚀 Requisitos Previos
 
-- **Node.js**: `v20.0.0` o superior (probado en Node.js v26 en Linux).
+- **Node.js**: `v22.0.0` o superior (probado en Node.js v26 en Linux).
 - **npm**: `v9.0.0` o superior.
 - **Backend API**: Servidor FastAPI en ejecución en `http://localhost:8000/api/`.
+
+---
+
+## ⚙️ Variables de Entorno
+
+El proyecto se configura mediante variables de entorno definidas en un archivo `.env`. Se incluye una plantilla base en [`.env.example`](.env.example):
+
+```bash
+cp .env.example .env
+```
+
+| Variable   | Descripción                                                               | Valor por Defecto           |
+| ---------- | ------------------------------------------------------------------------- | --------------------------- |
+| `API_URL`  | URL base de la API REST de FastAPI (fuente única de verdad para el fetch) | `http://localhost:8000/api` |
+| `PORT`     | Puerto del servidor en producción                                         | `5173`                      |
+| `HOST`     | Dirección de enlace del host                                              | `0.0.0.0`                   |
+| `NODE_ENV` | Entorno de ejecución de Node.js                                           | `production`                |
 
 ---
 
@@ -76,23 +93,53 @@ IntroDex es una aplicación web moderna e interactiva para explorar la Pokédex,
    cd fiuba-ids-tp2-frontend
    ```
 
-2. **Instalar dependencias**:
+2. **Configurar el entorno**:
+
+   ```bash
+   cp .env.example .env
+   ```
+
+3. **Instalar dependencias**:
 
    ```bash
    npm install
    ```
 
-3. **Verificar que el backend esté ejecutándose**:
+4. **Verificar que el backend esté ejecutándose**:
 
    ```bash
    curl http://localhost:8000/api/pokemon/?limit=1
    ```
 
-4. **Iniciar el servidor de desarrollo**:
+5. **Iniciar el servidor de desarrollo**:
    ```bash
    npm run dev
    ```
    La aplicación estará disponible en [http://localhost:5173](http://localhost:5173).
+
+---
+
+## 🐳 Despliegue con Docker
+
+El proyecto incluye un [`Dockerfile`](Dockerfile) optimizado multi-etapa con base `node:22-alpine` adaptado para producción con `@sveltejs/adapter-node`:
+
+1. **Construir la imagen**:
+
+   ```bash
+   docker build -t introdex-frontend .
+   ```
+
+2. **Ejecutar el contenedor**:
+
+   ```bash
+   docker run -p 5173:5173 introdex-frontend
+   ```
+
+3. **Opcional: pasar archivo de variables de entorno personalizado**:
+
+   ```bash
+   docker run --env-file .env -p 5173:5173 introdex-frontend
+   ```
 
 ---
 
@@ -102,6 +149,7 @@ IntroDex es una aplicación web moderna e interactiva para explorar la Pokédex,
 | ----------------- | ------------------------------------------------------------------------ |
 | `npm run dev`     | Inicia el entorno local de desarrollo con Hot Module Replacement (HMR).  |
 | `npm run build`   | Compila la aplicación optimizada para producción (SSR + Cliente).        |
+| `npm run start`   | Inicia el servidor Node.js en producción cargando `.env`.                |
 | `npm run preview` | Previsualiza localmente el build de producción generado.                 |
 | `npm run format`  | Aplica formateo automático en todo el proyecto con Prettier.             |
 | `npm run lint`    | Ejecuta validación estática de código con ESLint y revisión de Prettier. |
@@ -132,6 +180,9 @@ fiuba-ids-tp2-frontend/
 │       ├── movimientos/         # Catálogo y detalle de movimientos
 │       └── equipos/             # Gestor de equipos y alineación táctica
 ├── CONSIGNA.md                  # Consigna original del trabajo práctico
+├── Dockerfile                   # Configuración multi-etapa para contenedor Docker
+├── .dockerignore                # Archivos excluidos del contexto de compilación Docker
+├── .env.example                 # Plantilla de variables de entorno (API_URL, PORT, etc.)
 ├── package.json
 └── eslint.config.js             # Configuración adaptada para Svelte 5 y SvelteKit 3
 ```

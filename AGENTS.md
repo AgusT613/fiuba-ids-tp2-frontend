@@ -56,14 +56,20 @@ El proyecto utiliza **Svelte 5** nativamente. **NUNCA** utilizar la sintaxis obs
 
 ## 3. Integración con el Backend (FastAPI)
 
-1. **Trailing Slashes Obligatorios**:
-   FastAPI redirige con `307 Temporary Redirect` las peticiones sin barra final. Todas las URLs en llamadas `fetch` deben incluir la barra final:
-   - ✅ `http://localhost:8000/api/pokemon/?limit=20&offset=0`
-   - ✅ `http://localhost:8000/api/movimientos/?limit=20`
-   - ✅ `http://localhost:8000/api/equipos/`
-   - ❌ `http://localhost:8000/api/pokemon` (causa 307 redirect).
+1. **Variables de Entorno y `API_URL`**:
+   - `API_URL` se define en `.env` (por defecto `http://localhost:8000/api`).
+   - En código, se importa exclusivamente de `#lib/constantes/index`: `import { API_URL } from '#lib/constantes/index';`.
+   - `src/lib/constantes/index.js` utiliza `export const API_URL = process.env.API_URL;` como única fuente de verdad sin valores URL hardcodeados.
+   - **NUNCA** escribir cadenas de URL fijas (`http://localhost:8000/...`) en endpoints de rutas, formularios o componentes (`Typeahead.svelte`).
 
-2. **Endpoints Principales**:
+2. **Trailing Slashes Obligatorios**:
+   FastAPI redirige con `307 Temporary Redirect` las peticiones sin barra final. Todas las URLs en llamadas `fetch` deben incluir la barra final:
+   - ✅ `${API_URL}/pokemon/?limit=20&offset=0`
+   - ✅ `${API_URL}/movimientos/?limit=20`
+   - ✅ `${API_URL}/equipos/`
+   - ❌ `${API_URL}/pokemon` (causa 307 redirect).
+
+3. **Endpoints Principales**:
    - `GET /api/pokemon/?limit={}&offset={}&nombre_parcial={}&tipo={}`
    - `GET /api/pokemon/{id}`
    - `GET /api/movimientos/?limit={}&offset={}&nombre_parcial={}&tipo={}`

@@ -1,4 +1,5 @@
 import { error } from '@sveltejs/kit';
+import { API_URL } from '#lib/constantes/index';
 
 export async function load({ url }) {
 	const tipos = {
@@ -28,7 +29,7 @@ export async function load({ url }) {
 	const pageSize = 20;
 	const offset = page * pageSize;
 
-	let apiUrl = new URL(`http://localhost:8000/api/movimientos/`);
+	let apiUrl = new URL(`${API_URL}/movimientos/`);
 	apiUrl.searchParams.set('limit', pageSize.toString());
 	apiUrl.searchParams.set('offset', offset.toString());
 	if (query) {

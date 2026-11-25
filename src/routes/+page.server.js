@@ -2,7 +2,7 @@ import { error } from '@sveltejs/kit';
 import { API_URL, TIPOS } from '#lib/constantes/index';
 
 export async function load({ url }) {
-	const apiUrl = new URL(`${API_URL}/pokemon`);
+	const apiUrl = new URL(`${API_URL}/pokemon/`);
 	const queryNombreParcial = url.searchParams.get('nombre') || '';
 	const queryTipo = url.searchParams.get('tipo') || '';
 	const queryPage = parseInt(url.searchParams.get('page') || '0');
