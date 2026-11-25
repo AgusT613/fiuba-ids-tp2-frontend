@@ -30,7 +30,8 @@
 		try {
 			cargando = true;
 			const cleanEndpoint = endpoint.endsWith('/') ? endpoint : `${endpoint}/`;
-			const url = new URL(cleanEndpoint);
+			const baseOrigin = typeof window !== 'undefined' ? window.location.origin : 'http://localhost';
+			const url = new URL(cleanEndpoint, baseOrigin);
 			url.searchParams.set('nombre_parcial', query.trim());
 			url.searchParams.set('limit', '8');
 
